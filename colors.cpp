@@ -3,6 +3,9 @@
 const int RMASK = 0xFF0000; //0000000011111110000000000000000
 const int GMASK = 0x00FF00; //0000000000000001111111100000000
 const int BMASK = 0x0000FF; //0000000000000000000000011111111
+const int RPOS = 16;
+const int GPOS = 8;
+const int BPOS = 0;
 
 using namespace std;
 
@@ -28,48 +31,45 @@ void showDec(int a){
     cout << dec << a;
 }
 
+void showRGB(int r, int g, int b) {
+    cout << "r=";
+    showDec(r);
+    cout << endl;
+    cout << "g=";
+    showDec(g);
+    cout << endl;
+    cout << "b=";
+    showDec(b);
+    cout << endl << endl;
+}
+
+void showHexColorFormat(int r, int g, int b){
+    cout << "#";
+    showHex(r);
+    showHex(g);
+    showHex(b);
+    cout << endl << endl;
+}
+
+int sumColorValues(int r, int g, int b){
+    return (r << 16)+(g << 8)+b;
+}
 
 int main(){
     int a = inputSelectedColor();
 
+    int r = (RMASK & a) >> RPOS;
+    int g = (GMASK & a) >> GPOS;
+    int b = (BMASK & a) >> BPOS;
+
     cout << "Input:" << endl;
-    cout << "r=";
-    int r = (RMASK & a) >> 16;
-    showDec(r);
-    cout << endl;
-    cout << "g=";
-    int g = (GMASK & a) >> 8;
-    showDec(g);
-    cout << endl;
-    cout << "b=";
-    int b = (BMASK & a);
-    showDec(b);
-    cout << endl;
-    cout << endl;
-    cout << "#";
-    showHex(r);
-    showHex(g);
-    showHex(b);
-    cout << endl;
-    cout << endl;
+    showRGB(r, g, b);
+    showHexColorFormat(r, g, b);
+
     cout << "Output:" << endl;
-    cout << "g=";
-    showDec(g);
-    cout << endl;
-    cout << "r=";
-    showDec(r);
-    cout << endl;
-    cout << "b=";
-    showDec(b);
-    cout << endl;
-    cout << endl;
-    cout << "#";
-    showHex(g);
-    showHex(r);
-    showHex(b);
-    cout << endl;
-    cout << endl;
-    cout << dec << (g << 16)+(r << 8)+b;
-    cout << endl;
-    cout << endl;
+    showRGB(g, r, b);
+    showHexColorFormat(g, r, b);
+
+    cout << dec << sumColorValues(g, r, b);
+    cout << endl;  
 }
